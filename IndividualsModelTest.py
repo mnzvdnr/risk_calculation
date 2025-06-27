@@ -2,7 +2,7 @@ import pandas as pd
 from autogluon.tabular import TabularPredictor
 
 # Загрузка сохраненной модели
-model_path = "AutogluonModels\\ag-20250320_092044"  # Укажи путь к модели \\ag-20250320_092044
+model_path = "AutogluonModels_Individuals"  # Укажи путь к модели \\ag-20250320_092044
 predictor = TabularPredictor.load(model_path)
 
 
