@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор пользователя</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Выберите тип пользователя</h1>
+        <a href="/individual"><button class="btn">Физическое лицо</button></a>
+        <a href="/business"><button class="btn">Юридическое лицо</button></a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор риска</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор риска - {{ "Физическое лицо" if user_type == 'individual' else "Юридическое лицо" }}</h1>
+        <select id="user_type" onchange="switchUserType()">
+            <option value="individual" {% if user_type == 'individual' %}selected{% endif %}>Физическое лицо</option>
+            <option value="business" {% if user_type == 'business' %}selected{% endif %}>Юридическое лицо</option>
+        </select>
+
+        <form id="risk-form">
+            <div class="form-group">
+                {% if user_type == 'individual' %}
+                <label for="age">Возраст</label>
+                <input type="text" id="age" name="age" required><br />
+
+                <label for="income">Доход</label>
+                <input type="text" id="income" name="income" required><br />
+
+                <label for="expenses">Расходы</label>
+                <input type="text" id="expenses" name="expenses" required><br />
+
+                <label for="marital_status">Семейное положение</label>
+                <select id="marital_status" name="marital_status" required>
+                   <option value="" disabled selected>Выберите</option>
+                    <option value="1">Женат/Замужем</option>
+                    <option value="0">Не женат/Не замужем</option>
+                </select>
+                <br />
+
+                <label for="dependents">Количество иждивенцев</label>
+                <input type="text" id="dependents" name="dependents" required><br />
+
+                <label for="has_property">Наличие недвижимости</label>
+               <select id="has_property" name="has_property" required>
+                   <option value="" disabled selected>Выберите</option>
+                    <option value="1">Есть недвижимость</option>
+                    <option value="0">Нет недвижимости</option>
+                </select>
+                <br />
+
+                <label for="has_car">Наличие машины в собственности</label>
+                 <select id="has_car" name="has_car" required>
+                   <option value="" disabled selected>Выберите</option>
+                    <option value="1">Есть машина</option>
+                    <option value="0">Нет машины</option>
+                </select>
+                <br />
+
+                <label for="employment_status">Тип занятости</label>
+                <select id="employment_status" name="employment_status" required>
+                   <option value="" disabled selected>Выберите</option>
+                    <option value="0">Наём</option>
+                    <option value="1">Безработный</option>
+                    <option value="2">Самозанятый</option>
+                    <option value="3">Предприниматель</option>
+                </select>
+                <br />
+
+                <label for="months_since_last_delinquency">Количество месяцев с последней просроченной выплаты по кредиту</label>
+                <input type="text" id="months_since_last_delinquency" name="months_since_last_delinquency" value="-" required><br />
+
+                <label for="loan_purpose">Цель кредита</label>
+               <select id="loan_purpose" name="loan_purpose" required>
+                   <option value="" disabled selected>Выберите</option>
+                    <option value="0">Ипотека</option>
+                    <option value="1">Автокредит</option>
+                    <option value="2">Образовательный</option>
+                    <option value="3">Потребительский</option>
+                    <option value="4">Рефинансирование</option>
+                </select>
+                <br />
+
+                <label for="loan_amount">Сумма кредита</label>
+                <input type="text" id="loan_amount" name="loan_amount" required><br />
+                {% endif %}
+                {% if user_type == 'business' %}
+<!--                #legal_entity_type  [0"ООО", 1"АО", 2"ПАО", 3"НАО", 4"Производственный кооператив", 5"Хозяйственное товарищество", 6"ГУП", 7"МУП"]-->
+                <label for="legal_entity_type">Тип юридического лица</label>
+                <select id="legal_entity_type" name="legal_entity_type" required>
+                   <option value="" disabled selected>Выберите</option>
+                    <option value="0">ООО</option>
+                    <option value="1">АО</option>
+                    <option value="2">ПАО</option>
+                    <option value="3">НАО</option>
+                    <option value="4">Производственный кооператив</option>
+                    <option value="5">Хозяйственное товарищество</option>
+                    <option value="6">ГУП</option>
+                    <option value="7">МУП</option>
+                </select>
+                <br />
+
+                <label for="annual_revenue">Годовой доход</label>
+                <input type="text" id="annual_revenue" name="annual_revenue" required><br />
+
+                <label for="total_assets">Общие активы</label>
+                <input type="text" id="total_assets" name="total_assets" required><br />
+
+                <label for="total_liabilities">Общие обязательства</label>
+                <input type="text" id="total_liabilities" name="total_liabilities" required><br />
+
+                <label for="total_loans">Количество кредитов</label>
+                <input type="text" id="total_loans" name="total_loans" required><br />
+
+                <label for="annual_turnover">Годовой оборот</label>
+                <input type="text" id="annual_turnover" name="annual_turnover" required><br />
+
+                <label for="has_property_business">Наличие недвижимости</label>
+                <select id="has_property_business" name="has_property_business" required>
+                   <option value="" disabled selected>Выберите</option>
+                    <option value="1">Есть недвижимость</option>
+                    <option value="0">Нет недвижимости</option>
+                </select>
+                <br />
+
+                <label for="months_since_last_delinquency_business">Количество месяцев с последней просроченной выплаты по кредиту</label>
+                <input type="text" id="months_since_last_delinquency_business" name="months_since_last_delinquency_business" value="-" required><br />
+
+                <label for="loan_purpose_business">Цель кредита</label>
+                <select id="loan_purpose_business" name="loan_purpose_business" required>
+                   <option value="" disabled selected>Выберите</option>
+                    <option value="0">Оборотный</option>
+                    <option value="1">Инвестиционный</option>
+                    <option value="2">Рефинансирование</option>
+                    <option value="3">Недвижимость</option>
+                    <option value="4">Лизинг</option>
+                    <option value="5">Тендерный</option>
+                </select>
+                <br />
+
+                <label for="loan_amount_business">Сумма кредита</label>
+                <input type="text" id="loan_amount_business" name="loan_amount_business" required><br />
+            {% endif %}
+            </div>
+
+
+            {% if user_type == 'individual' %}
+                <button type="button" id="calculate-loan" onclick="calculateLoanTerm('individual')">
+                    Рассчитать срок кредита
+                </button>
+                <select id="loan-term" name="loan_term" disabled></select>
+            {% endif %}
+
+            {% if user_type == 'business' %}
+                <button type="button" id="calculate-loan-business" onclick="calculateLoanTerm('business')">
+                    Рассчитать срок кредита
+                </button>
+                <select id="loan-term-business" name="loan_term_business" disabled></select>
+            {% endif %}
+
+
+
+            <button type="button" id="calculate-risk" onclick="calculateRisk()" disabled>Рассчитать риск</button>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+
+            <p id="risk-result"></p>
+            <button id="go-home" onclick="goToHome()">Назад на главную</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
